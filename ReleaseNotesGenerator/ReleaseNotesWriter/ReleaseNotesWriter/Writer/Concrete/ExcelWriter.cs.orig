@@ -1,0 +1,378 @@
+<<<<<<< HEAD
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Collections;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Xml;
+using HtmlAgilityPack;
+using AssetDataStructures.FCAsset.Concrete;
+using RefinedReleaseNotesDictionary.Dictionary;
+using ReleaseNotesProcessor.ProcessReleaseNotes.Concrete;
+using XMLExtractor;
+using ReleaseNoteOutputOrdering;
+using ReleaseNotesWriter.Writer.Abstract;
+using ReleaseNotesWriter.Writer.Util;
+using Microsoft.Office.Interop.Excel;
+=======
+﻿using System.Collections.Generic;
+using AssetDataStructures.FCAsset.Concrete;
+using RefinedReleaseNotesDictionary.Dictionary;
+using ReleaseNotesWriter.Writer.Abstract;
+>>>>>>> B-09122-ReleaseNotesPhase1
+
+namespace ReleaseNotesWriter.Writer.Concrete
+{
+    public class ExcelWriter : BaseWriter
+    {
+        private const string REASON_INCORRECT_FORMAT = "Spelling mistake/One of categories not in template XML";
+        private const string WHITE_SPACE = " ";
+
+        public ExcelWriter(Dictionary<CReleaseNoteAsset,Dictionary<int,string>> refineNotes, Dictionary<int,Dictionary<int,string>> extractedXML)
+        {
+            Dictionary = new CReleaseNoteDictionary(refineNotes);
+            ExtractedXML = extractedXML;
+        }
+
+        public override void WriteAllReleaseNotes(string fileName)
+        {
+            Application xLApp;
+            Workbook xLWorkbook;
+            Worksheet xLWorksheet;
+
+            xLApp = new Application();
+            xLApp.Visible = false;
+            xLApp.DisplayAlerts = false;
+
+            xLWorkbook = xLApp.Workbooks.Add();
+
+            xLWorksheet = xLWorkbook.ActiveSheet;
+            System.Data.DataTable inCorrectTab = SetUpWronglyFormattedTab(Dictionary.RefinedDictionary.Keys);
+            ExcelConvertDataTable(inCorrectTab, xLApp, xLWorkbook, xLWorksheet);
+            FormatExcelWorksheet(xLWorksheet, "Incorrectly Formatted");
+
+            xLWorksheet = (Worksheet)xLWorkbook.Worksheets.Add();
+            Dictionary<string, List<CReleaseNoteAsset>> outputCollection = new ClientOrdering()
+                .GetAssetOrdering(Dictionary.RefinedDictionary, ExtractedXML);
+            System.Data.DataTable outputTab = SetUpOutputDataTable(outputCollection);
+            ExcelConvertDataTable(outputTab, xLApp, xLWorkbook, xLWorksheet);
+            FormatExcelWorksheet(xLWorksheet, "Output");
+
+            xLWorksheet = (Worksheet)xLWorkbook.Worksheets.Add();
+            System.Data.DataTable auditTab = SetUpAuditDataTable(Dictionary.RefinedDictionary.Keys);
+            ExcelConvertDataTable(auditTab, xLApp, xLWorkbook, xLWorksheet);
+            FormatExcelWorksheet(xLWorksheet, "Audit");
+
+            xLWorkbook.SaveAs(fileName + ".xlsx");
+            xLApp.Quit();
+        }
+
+        public bool WriteRequiredReleaseNotes(bool? releaseNoteRequired, string fileName)
+        {
+            Application xLApp;
+            Workbook xLWorkbook;
+            Worksheet xLWorksheet;
+            xLApp = new Application();
+            xLApp.Visible = false;
+            xLApp.DisplayAlerts = false;
+
+            IEnumerable<CReleaseNoteAsset> enumerable = LinqReleaseNotes.GetAssetsWithReleaseNoteRequired(
+                Dictionary.RefinedDictionary, releaseNoteRequired);
+
+            if (enumerable == null)
+            {
+                NoAssetsAvailableToPrint(fileName);
+                return false;
+            }
+
+            xLWorkbook = xLApp.Workbooks.Add();
+
+            xLWorksheet = xLWorkbook.ActiveSheet;
+            Dictionary<CReleaseNoteAsset, Dictionary<int, string>> parsedDictionary = new Dictionary<CReleaseNoteAsset, Dictionary<int, string>>();
+            foreach (CReleaseNoteAsset cReleaseNoteAsset in enumerable)
+            {
+                parsedDictionary.Add(cReleaseNoteAsset, Dictionary.RefinedDictionary[cReleaseNoteAsset]);
+            }
+            Dictionary<string, List<CReleaseNoteAsset>> outputCollection = new ClientOrdering()
+                .GetAssetOrdering(parsedDictionary, ExtractedXML);
+            System.Data.DataTable outputTab = SetUpOutputDataTable(outputCollection);
+            ExcelConvertDataTable(outputTab, xLApp, xLWorkbook, xLWorksheet);
+            FormatExcelWorksheet(xLWorksheet, "Output");
+            
+            xLWorksheet = (Worksheet)xLWorkbook.Worksheets.Add();
+            System.Data.DataTable inCorrectTab = SetUpWronglyFormattedTab(enumerable);
+            ExcelConvertDataTable(inCorrectTab, xLApp, xLWorkbook, xLWorksheet);
+            FormatExcelWorksheet(xLWorksheet, "Incorrectly Formatted");
+
+            xLWorksheet = (Worksheet)xLWorkbook.Worksheets.Add();
+            System.Data.DataTable auditTab = SetUpAuditDataTable(enumerable);
+            ExcelConvertDataTable(auditTab, xLApp, xLWorkbook, xLWorksheet);
+            FormatExcelWorksheet(xLWorksheet, "Audit");
+
+            xLWorkbook.SaveAs(fileName + ".xlsx");
+            //xLApp.Quit();
+            xLApp.Visible = true;
+            return true;
+        }
+
+        private static void NoAssetsAvailableToPrint(string fileName)
+        {
+            Application xLApp;
+            Workbook xLWorkbook;
+            Worksheet xLWorksheet;
+
+            xLApp = new Application();
+            xLApp.Visible = false;
+            xLApp.DisplayAlerts = false;
+
+            xLWorkbook = xLApp.Workbooks.Add();
+            xLWorksheet = (Worksheet)xLWorkbook.ActiveSheet();
+            xLWorksheet.Name = "ERROR";
+
+            xLWorksheet.Cells[1, 1] = "There are no assets available!";
+            xLWorksheet.Cells[1, 1].Interior.Color = ColorTranslator.ToOle(Color.LightGray);
+            xLWorksheet.Cells[1, 1].Font.Color = true;
+
+            xLWorkbook.SaveAs(fileName + "xlsx");
+            xLApp.Quit();
+        }
+
+        private System.Data.DataTable SetUpWronglyFormattedTab(IEnumerable<CReleaseNoteAsset> collection)
+        {
+            System.Data.DataTable incorrectTab = new System.Data.DataTable();
+            incorrectTab.Columns.Add("ID");
+            incorrectTab.Columns.Add("Reference");
+            incorrectTab.Columns.Add("Source");
+            incorrectTab.Columns.Add("Epic");
+            incorrectTab.Columns.Add("Release Note");
+            incorrectTab.Columns.Add("URL");
+            incorrectTab.Columns.Add("Reason incorrectly formatted");
+
+            IEnumerable<CReleaseNoteAsset> inCorrectlyFormatted = collection
+                .Where(item => !item.IsReleaseNoteCorrectlyFormatted);
+
+            foreach (CReleaseNoteAsset asset in inCorrectlyFormatted)
+            {
+                try
+                {
+                    List<string> dataRow = new List<string>();
+                    string id = (asset.Id == null) ? String.Empty : asset.Id.ToString();
+                    dataRow.Add(id);
+                    string reference = (asset.Reference == null) ? String.Empty : asset.Reference.ToString();
+                    dataRow.Add(reference);
+                    string source = (asset.Source == null) ? String.Empty : asset.Source.ToString();
+                    dataRow.Add(source);
+                    string super = (asset.SuperNumber == null) ? String.Empty : asset.SuperNumber.ToString();
+                    dataRow.Add(super);
+                    string releaseNotePipes = (asset.ReleaseNoteString == null) ? String.Empty : asset.ReleaseNoteString.ToString();
+                    dataRow.Add(releaseNotePipes);
+                    string url = (asset.URL == null) ? String.Empty : asset.URL.ToString();
+                    dataRow.Add(url);
+                    string reason = WHITE_SPACE;
+                    if (releaseNotePipes.Split('|').ToList().Count >= 5)
+                    {
+                        reason = REASON_INCORRECT_FORMAT;
+                    }
+                    dataRow.Add(reason);
+                        incorrectTab.Rows.Add(dataRow.ToArray());
+                }
+                catch
+                {
+                    continue;
+                }
+            }
+            return incorrectTab;
+        }
+
+        private System.Data.DataTable SetUpOutputDataTable(Dictionary<string,List<CReleaseNoteAsset>> collection)
+        {
+            System.Data.DataTable outputTab = new System.Data.DataTable();
+            outputTab.Columns.Add("Existence");
+            outputTab.Columns.Add("Major Area");
+            outputTab.Columns.Add("Category");
+            outputTab.Columns.Add("Change Type");
+            outputTab.Columns.Add("Type Designation");
+            outputTab.Columns.Add("Reference");
+            outputTab.Columns.Add("Source");
+            outputTab.Columns.Add("Epic");
+            outputTab.Columns.Add("ID");
+            outputTab.Columns.Add("Release Note");
+            outputTab.Columns.Add("Top Summary");
+            outputTab.Columns.Add("Usability Indicator");
+            outputTab.Columns.Add("App Help Updated");
+            outputTab.Columns.Add("App Help Updates");
+            outputTab.Columns.Add("Manuals to Update");
+            outputTab.Columns.Add("Manuals Updated");
+
+            foreach (KeyValuePair<string,List<CReleaseNoteAsset>> dictionary in collection)
+            {
+                List<string> headerTitle = dictionary.Key.Split(',').ToList();
+                outputTab.Rows.Add(headerTitle[0],headerTitle[1]);
+                outputTab.Rows.Add(String.Empty, String.Empty, headerTitle[2]);
+
+                if (headerTitle[3] != "New Feature")
+                {
+                    outputTab.Rows.Add(String.Empty, String.Empty, String.Empty, headerTitle[3]);
+                }
+                IEnumerable<CReleaseNoteAsset> correctlyFormatted = dictionary.Value
+                    .Where(element => element.IsReleaseNoteCorrectlyFormatted);
+                foreach (CReleaseNoteAsset asset in correctlyFormatted)
+                {
+                    try
+                    {
+                        List<string> dataRow = new List<string>();
+                        for(int listCount = 0; listCount < headerTitle.Count; listCount++)
+                        {
+                            dataRow.Add(" ");
+                        }
+                        string typeDesignation = headerTitle[1];
+                        dataRow.Add(typeDesignation);
+                        string reference = (asset.Reference == null) ? String.Empty : asset.Reference.ToString();
+                        dataRow.Add(reference);
+                        string source = (asset.Source == null) ? String.Empty : asset.Source.ToString();
+                        dataRow.Add(source);
+                        string super = (asset.SuperNumber == null) ? String.Empty : asset.SuperNumber.ToString();
+                        dataRow.Add(super);
+                        string id = (asset.Id == null) ? String.Empty : asset.Id.ToString();
+                        dataRow.Add(id);
+                        List<string> releaseNotePipes = (asset.ReleaseNoteString == null) ? null : asset.ReleaseNoteString.ToString().Split('|').ToList();
+                        if (releaseNotePipes != null)
+                        {
+                            if (releaseNotePipes[0] == "\n" || releaseNotePipes[0] == String.Empty)
+                            {
+                                releaseNotePipes.RemoveAt(0);
+                            }
+                            if (releaseNotePipes[0] == "OK" || releaseNotePipes[0] == "\n" || releaseNotePipes[0] == "\n\n")
+                            {
+                                releaseNotePipes.RemoveAt(0);
+                            }
+                        }
+                        foreach (string item in headerTitle)
+                        {
+                            releaseNotePipes.RemoveAt(0);
+                        }
+                        dataRow.AddRange(releaseNotePipes.ToArray());
+                        outputTab.Rows.Add(dataRow.ToArray());
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+            }
+            return outputTab;
+        }
+
+        private System.Data.DataTable SetUpAuditDataTable(IEnumerable<CReleaseNoteAsset> collection)
+        {
+            System.Data.DataTable auditTab = new System.Data.DataTable();
+
+            auditTab.Columns.Add("ID");
+            auditTab.Columns.Add("Description");
+            auditTab.Columns.Add("Source");
+            auditTab.Columns.Add("Status");
+            auditTab.Columns.Add("Release Notes Required");
+            auditTab.Columns.Add("Release Notes");
+            auditTab.Columns.Add("Team");
+            auditTab.Columns.Add("Owner");
+            auditTab.Columns.Add("URL");
+
+            foreach (CReleaseNoteAsset value in collection)
+            {
+                try
+                {
+                    string id = (value.Id == null) ? String.Empty : value.Id.ToString();
+                    string description = (value.Name == null) ? String.Empty : value.Name.ToString();
+                    string source = (value.Source == null) ? String.Empty : value.Source.ToString();
+                    string status = (value.Status == null) ? String.Empty : value.Status.ToString();
+                    string releaseNotesRequired = (value.ReleaseNoteRequired == null) ? String.Empty : value.ReleaseNoteRequired.ToString();
+                    string releaseNoteString = (value.ReleaseNoteString == null) ? String.Empty : value.ReleaseNoteString.ToString();
+                    string team = (Utility.IsAny(value.Team) == false) ? String.Empty : String.Join("\n", value.Team.ToArray());
+                    string owner = (Utility.IsAny(value.Owners) == false) ? String.Empty : String.Join("\n", value.Owners.ToArray());
+                    string url = (value.URL == null) ? String.Empty : value.URL.ToString();
+
+                    auditTab.Rows.Add(id, description, source, status,
+                        releaseNotesRequired, releaseNoteString, team, owner, url);
+                }
+                catch
+                {
+                    continue;
+                }
+            }
+            return auditTab;
+
+        }
+
+        private void FormatExcelWorksheet(Worksheet xLWorksheet, string tabName)
+        {
+            xLWorksheet.Columns.EntireColumn.AutoFit();
+            xLWorksheet.Rows.EntireRow.AutoFit();
+            foreach (Range column in xLWorksheet.Columns)
+            {
+                if (column.ColumnWidth > 30)
+                {
+                    column.EntireColumn.ColumnWidth = 30;
+                    column.EntireRow.AutoFit();
+                }
+            }
+            xLWorksheet.Application.ActiveWindow.SplitRow = 1;
+            xLWorksheet.Application.ActiveWindow.FreezePanes = true;
+            xLWorksheet.Name = tabName;
+
+            if (tabName == "Incorrectly Formatted" || tabName == "Audit")
+            {
+                int urlColumn = 0;
+                for (int i = 1; i < xLWorksheet.Columns.Count; i++)
+                {
+                    if ((string)(xLWorksheet.Cells[1, i] as Range).Value == "URL")
+                    {
+                        urlColumn = i;
+                        break;
+                    }
+                }
+                Range used = xLWorksheet.UsedRange;
+                int lastUsedRow = used.Row + used.Rows.Count;
+                for (int count = 2; count < lastUsedRow; count++)
+                {
+                    try
+                    {
+                        string cellValue = String.Empty;
+                        if (urlColumn != 0)
+                        {
+                            cellValue = (string)(xLWorksheet.Cells[count, urlColumn] as Range).Value;
+                        }
+                        if (cellValue != String.Empty)
+                        {
+                            Range cellRange = ((Range)xLWorksheet.Cells[count, urlColumn]);
+                            xLWorksheet.Hyperlinks.Add(Anchor: cellRange, Address: cellValue);
+                        }
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
+
+        private void ExcelConvertDataTable(System.Data.DataTable dataTable,
+            Application xLApp, Workbook xLWorkbook, Worksheet xLWorksheet)
+        {
+            for (int i = 0; i < dataTable.Columns.Count; i++)
+            {
+                xLWorksheet.Cells[1, (i + 1)] = dataTable.Columns[i].ColumnName;
+                xLWorksheet.Cells[1, (i + 1)].Interior.Color = ColorTranslator.ToOle(Color.LightGray);
+                xLWorksheet.Cells[1, (i + 1)].Font.Bold = true;
+            }
+
+            for (int i = 0; i < dataTable.Rows.Count; i++)
+            {
+                for (int j = 0; j < dataTable.Columns.Count; j++)
+                {
+                    xLWorksheet.Cells[(i + 2), (j + 1)] = dataTable.Rows[i][j];
+                }
+            }
+        }
+    }
+}

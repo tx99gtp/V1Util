@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReleaseNoteGenerator", "ReleaseNoteGenerator\ReleaseNoteGenerator.csproj", "{FB2DBF5B-3E00-428B-BAC7-41B439B74F74}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0F4C9361-52B9-4BBF-A891-C27140BBF1C6} = {0F4C9361-52B9-4BBF-A891-C27140BBF1C6}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefinedReleaseNotesDictionary", "..\RefinedReleaseNotesDictionary\RefinedReleaseNotesDictionary\RefinedReleaseNotesDictionary.csproj", "{364F817B-3CF3-4288-81FF-DD372B4D07B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReleaseNoteOutputOrdering", "..\ReleaseNoteOutputOrdering\ReleaseNoteOutputOrdering\ReleaseNoteOutputOrdering.csproj", "{6AF2F8E5-2508-4557-B194-026E18A3F285}"
+	ProjectSection(ProjectDependencies) = postProject
+		{364F817B-3CF3-4288-81FF-DD372B4D07B3} = {364F817B-3CF3-4288-81FF-DD372B4D07B3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReleaseNotesProcessor", "..\ReleaseNotesProcessor\ReleaseNotesProcessor\ReleaseNotesProcessor.csproj", "{DAA96740-C45E-438E-B4BD-BD7C171B991F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReleaseNotesWriter", "..\ReleaseNotesWriter\ReleaseNotesWriter\ReleaseNotesWriter.csproj", "{78E4BF7C-73F2-4020-ABD9-F0645CAFBFC5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DAA96740-C45E-438E-B4BD-BD7C171B991F} = {DAA96740-C45E-438E-B4BD-BD7C171B991F}
+		{364F817B-3CF3-4288-81FF-DD372B4D07B3} = {364F817B-3CF3-4288-81FF-DD372B4D07B3}
+		{88AE4F99-B9EB-4EDE-849A-4340E7A5121B} = {88AE4F99-B9EB-4EDE-849A-4340E7A5121B}
+		{6AF2F8E5-2508-4557-B194-026E18A3F285} = {6AF2F8E5-2508-4557-B194-026E18A3F285}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLExtractor", "..\XMLExtractor\XMLExtractor\XMLExtractor.csproj", "{88AE4F99-B9EB-4EDE-849A-4340E7A5121B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{364F817B-3CF3-4288-81FF-DD372B4D07B3} = {364F817B-3CF3-4288-81FF-DD372B4D07B3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReleaseNoteController", "..\ReleaseNoteController\ReleaseNoteController\ReleaseNoteController.csproj", "{0F4C9361-52B9-4BBF-A891-C27140BBF1C6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DAA96740-C45E-438E-B4BD-BD7C171B991F} = {DAA96740-C45E-438E-B4BD-BD7C171B991F}
+		{364F817B-3CF3-4288-81FF-DD372B4D07B3} = {364F817B-3CF3-4288-81FF-DD372B4D07B3}
+		{78E4BF7C-73F2-4020-ABD9-F0645CAFBFC5} = {78E4BF7C-73F2-4020-ABD9-F0645CAFBFC5}
+		{88AE4F99-B9EB-4EDE-849A-4340E7A5121B} = {88AE4F99-B9EB-4EDE-849A-4340E7A5121B}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB2DBF5B-3E00-428B-BAC7-41B439B74F74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB2DBF5B-3E00-428B-BAC7-41B439B74F74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB2DBF5B-3E00-428B-BAC7-41B439B74F74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB2DBF5B-3E00-428B-BAC7-41B439B74F74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{364F817B-3CF3-4288-81FF-DD372B4D07B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{364F817B-3CF3-4288-81FF-DD372B4D07B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{364F817B-3CF3-4288-81FF-DD372B4D07B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{364F817B-3CF3-4288-81FF-DD372B4D07B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AF2F8E5-2508-4557-B194-026E18A3F285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AF2F8E5-2508-4557-B194-026E18A3F285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AF2F8E5-2508-4557-B194-026E18A3F285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AF2F8E5-2508-4557-B194-026E18A3F285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAA96740-C45E-438E-B4BD-BD7C171B991F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAA96740-C45E-438E-B4BD-BD7C171B991F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAA96740-C45E-438E-B4BD-BD7C171B991F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAA96740-C45E-438E-B4BD-BD7C171B991F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78E4BF7C-73F2-4020-ABD9-F0645CAFBFC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78E4BF7C-73F2-4020-ABD9-F0645CAFBFC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78E4BF7C-73F2-4020-ABD9-F0645CAFBFC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78E4BF7C-73F2-4020-ABD9-F0645CAFBFC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88AE4F99-B9EB-4EDE-849A-4340E7A5121B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88AE4F99-B9EB-4EDE-849A-4340E7A5121B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88AE4F99-B9EB-4EDE-849A-4340E7A5121B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88AE4F99-B9EB-4EDE-849A-4340E7A5121B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F4C9361-52B9-4BBF-A891-C27140BBF1C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F4C9361-52B9-4BBF-A891-C27140BBF1C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F4C9361-52B9-4BBF-A891-C27140BBF1C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F4C9361-52B9-4BBF-A891-C27140BBF1C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

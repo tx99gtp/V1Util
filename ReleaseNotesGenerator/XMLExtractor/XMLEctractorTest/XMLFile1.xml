@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Release_Note_Identifiers>
+  <Identifier container ="Existence">
+    <Container_Value>hello</Container_Value>
+    <Container_Value>hey</Container_Value>
+  </Identifier>
+  <Identifier container ="Major Area">
+    <Container_Value>tom</Container_Value>
+    <Container_Value>jerry</Container_Value>
+    <Container_Value>john</Container_Value>
+  </Identifier>
+  <Identifier container ="Category">
+    <Container_Value>chipotle</Container_Value>
+    <Container_Value>mission burrito</Container_Value>
+    <Container_Value>uburrito</Container_Value>
+  </Identifier>
+  <Identifier container ="Change Type">
+    <Container_Value>cheese</Container_Value>
+    <Container_Value>meat</Container_Value>
+  </Identifier>
+</Release_Note_Identifiers>

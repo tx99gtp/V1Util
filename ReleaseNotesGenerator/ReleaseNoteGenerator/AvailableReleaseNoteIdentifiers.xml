@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Release_Note_Identifiers>
+  <Identifier container ="Existence">
+    <Container_Value>New</Container_Value>
+    <Container_Value>Old</Container_Value>
+  </Identifier>
+  <Identifier container ="MajorArea">
+    <Container_Value>General</Container_Value>
+    <Container_Value>Liquid</Container_Value>
+    <Container_Value>Gas</Container_Value>
+    <Container_Value>Admin</Container_Value>
+  </Identifier>
+  <Identifier container ="Category">
+    <Container_Value>Flow Data</Container_Value>
+    <Container_Value>Batch Data</Container_Value>
+    <Container_Value>Ticket Data</Container_Value>
+    <Container_Value>Tank Data</Container_Value>
+    <Container_Value>Inventory</Container_Value>
+    <Container_Value>Liquid Cavern</Container_Value>
+    <Container_Value>Rollups</Container_Value>
+    <Container_Value>Import</Container_Value>
+    <Container_Value>Import/Export</Container_Value>
+    <Container_Value>Meter Setup</Container_Value>
+    <Container_Value>Meter Characteristic</Container_Value>
+    <Container_Value>Meter Analysis</Container_Value>
+    <Container_Value>Source Analysis</Container_Value>
+    <Container_Value>Apply Analysis</Container_Value>
+    <Container_Value>Product</Container_Value>
+    <Container_Value>Location</Container_Value>
+    <Container_Value>List</Container_Value>
+    <Container_Value>Calculations</Container_Value>
+    <Container_Value>Calibration</Container_Value>
+    <Container_Value>Validation</Container_Value>
+    <Container_Value>Exception/Message</Container_Value>
+    <Container_Value>Closing/PPA</Container_Value>
+    <Container_Value>Export</Container_Value>
+    <Container_Value>Configuration</Container_Value>
+    <Container_Value>Contact</Container_Value>
+    <Container_Value>System</Container_Value>
+    <Container_Value>Security</Container_Value>
+    <Container_Value>Tool</Container_Value>
+    <Container_Value>Utility</Container_Value>
+    <Container_Value>Service</Container_Value>
+    <Container_Value>Report</Container_Value>
+    <Container_Value>Other</Container_Value>
+    <Container_Value>TESTit Integration</Container_Value>
+    <Container_Value>Task</Container_Value>
+    <Container_Value>Densitometer</Container_Value>
+    <Container_Value>Schedule</Container_Value>
+    <Container_Value>Environment</Container_Value>
+    <Container_Value>Crypkey</Container_Value>
+    <Container_Value>Licensing</Container_Value>
+    <Container_Value>Installation/Upgrade</Container_Value>
+    <Container_Value>Database</Container_Value>
+    <Container_Value>Application</Container_Value>
+    <Container_Value>Interface</Container_Value>
+    <Container_Value>Hardware/Wiring</Container_Value>
+</Identifier>
+  <Identifier container ="ChangeType">
+    <Container_Value>New Feature</Container_Value>
+    <Container_Value>Enhancement</Container_Value>
+    <Container_Value>Resolution</Container_Value>
+  </Identifier>
+</Release_Note_Identifiers>
+
+<!--<MainNode>
+  <Existence>New</Existence>
+  <Existence>Old</Existence>
+  <MajorArea>General</MajorArea>
+  <MajorArea>Liquid</MajorArea>
+  <MajorArea>Gas</MajorArea>
+  <MajorArea>Admin</MajorArea>
+  <ChangeType>New Feature</ChangeType>
+  <ChangeType>Enhancement</ChangeType>
+  <ChangeType>Resolution</ChangeType>
+  <Category>Flow Data</Category>
+  <Category>Batch Data</Category>
+  <Category>Ticket Data</Category>
+  <Category>Tank Data</Category>
+  <Category>Inventory</Category>
+  <Category>Liquid Cavern</Category>
+  <Category>Rollups</Category>
+  <Category>Import</Category>
+  <Category>Import/Export</Category>
+  <Category>Meter Setup</Category>
+  <Category>Meter Characteristic</Category>
+  <Category>Meter Analysis</Category>
+  <Category>Source Analysis</Category>
+  <Category>Apply Analysis</Category>
+  <Category>Product</Category>
+  <Category>Location</Category>
+  <Category>List</Category>
+  <Category>Calculations</Category>
+  <Category>Calibration</Category>
+  <Category>Validation</Category>
+  <Category>Exception/Message</Category>
+  <Category>Closing/PPA</Category>
+  <Category>Export</Category>
+  <Category>Configuration</Category>
+  <Category>Contact</Category>
+  <Category>System</Category>
+  <Category>Security</Category>
+  <Category>Tool</Category>
+  <Category>Utility</Category>
+  <Category>Service</Category>
+  <Category>Report</Category>
+  <Category>Other</Category>
+  <Category>TESTit Integration</Category>
+  <Category>Task</Category>
+  <Category>Densitometer</Category>
+  <Category>Schedule</Category>
+  <Category>Environment</Category>
+  <Category>Crypkey</Category>
+  <Category>Licensing</Category>
+  <Category>Installation/Upgrade</Category>
+  <Category>Database</Category>
+  <Category>Application</Category>
+  <Category>Interface</Category>
+  <Category>Hardware/Wiring</Category>
+</MainNode>-->

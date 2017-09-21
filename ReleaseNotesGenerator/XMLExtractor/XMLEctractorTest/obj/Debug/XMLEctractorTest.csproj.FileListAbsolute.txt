@@ -1,0 +1,7 @@
+F:\ReleaseNoteGenerator\ReleaseNotesGenerator\XMLExtractor\XMLEctractorTest\bin\Debug\XMLEctractorTest.dll
+F:\ReleaseNoteGenerator\ReleaseNotesGenerator\XMLExtractor\XMLEctractorTest\bin\Debug\XMLEctractorTest.pdb
+F:\ReleaseNoteGenerator\ReleaseNotesGenerator\XMLExtractor\XMLEctractorTest\bin\Debug\XMLExtractor.dll
+F:\ReleaseNoteGenerator\ReleaseNotesGenerator\XMLExtractor\XMLEctractorTest\bin\Debug\XMLExtractor.pdb
+F:\ReleaseNoteGenerator\ReleaseNotesGenerator\XMLExtractor\XMLEctractorTest\obj\Debug\XMLEctractorTest.csprojResolveAssemblyReference.cache
+F:\ReleaseNoteGenerator\ReleaseNotesGenerator\XMLExtractor\XMLEctractorTest\obj\Debug\XMLEctractorTest.dll
+F:\ReleaseNoteGenerator\ReleaseNotesGenerator\XMLExtractor\XMLEctractorTest\obj\Debug\XMLEctractorTest.pdb
